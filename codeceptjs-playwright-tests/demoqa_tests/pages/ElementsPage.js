@@ -36,6 +36,11 @@ module.exports = {
         excelCBox: {id: 'tree-node-excelFile'},
 
   radioButton: {xpath: '//span[contains(text(),"Radio Button")]'},
+    yesRdbtn: {id: 'yesRadio'},
+    impressiveRdbtn: {id: 'impressiveRadio'},
+    disabledRdbtn: {id: 'noRadio'},
+  rdbtnOutput: {xpath: '//span[@class="text-success"]'},
+
   webTables: {xpath: '//span[contains(text(),"Web Tables")]'},
   buttons: {xpath: '//span[contains(text(),"Buttons")]'},
   links: {xpath: '(//span[contains(text(),"Links")])[1]'},
@@ -70,5 +75,16 @@ module.exports = {
     await I.forceClick(this.excelCBox);
     await I.see('desktop',this.resultsDiv), I.see('react',this.resultsDiv), I.see('angular',this.resultsDiv), I.see('private',this.resultsDiv), I.see('excelFile',this.resultsDiv);
     await I.say('Correct checkboxes are selected', 'green');
+  },
+
+  async doRadioButtons() {
+    await I.click(this.radioButton);
+    await I.waitForText('Radio Button', 60, this.pageHeader);
+    await I.checkOption(this.yesRdbtn);
+    const result1 = await I.grabTextFrom(this.rdbtnOutput);
+    await I.say('You have selected ' + result1, 'green');
+    await I.checkOption(this.impressiveRdbtn);
+    const result2 = await I.grabTextFrom(this.rdbtnOutput);
+    await I.say('You have selected ' + result2, 'green');
   },
 }

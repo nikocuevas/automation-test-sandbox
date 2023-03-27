@@ -16,5 +16,6 @@ Given('I have a defined step', async() => {
   await HomePage.selectElements();
   await ElementsPage.doTextBoxes(fullName, email, currentAddress, permanentAddress);
   await ElementsPage.doCheckboxes();
+  await ElementsPage.doRadioButtons();
   await I.wait(5);
 });
