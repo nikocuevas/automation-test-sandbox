@@ -1,15 +1,17 @@
 const { devices } = require('playwright');
 
+require('dotenv').config();
+
 exports.config = {
   output: './output',
   helpers: {
     Playwright: {
       url: 'https://demoqa.com',
       colorScheme: "dark",
-      video: true,
-      keepVideoForPassedTests: true,
-      trace: true,
-      keepTraceForPassedTests: true,
+      video: false,
+      keepVideoForPassedTests: false,
+      trace: false,
+      keepTraceForPassedTests: false,
       show: true,
       browser: 'chromium',
       chromium: {
@@ -32,12 +34,24 @@ exports.config = {
   hooks: [],
   gherkin: {
     features: './features/*.feature',
-    steps: ['./step_definitions/steps.js']
+    steps: './step_definitions/*.js'
   },
   plugins: {
+    stepByStepReport: {
+      enabled: true,
+      fullPageScreenshots: true,
+      deleteSuccessful: false,
+    },
+    testomatio: {
+      enabled: true,
+      require: '@testomatio/reporter/lib/adapter/codecept',
+      apiKey: 'p9vecc649qgz',
+      output: 'stdout',
+      screenshotOnFail: true,
+    },
     autoDelay:{
       enabled: true,
-      delayAfter: 3000,
+      delayAfter: 1500,
     },
     screenshotOnFail: {
       enabled: true

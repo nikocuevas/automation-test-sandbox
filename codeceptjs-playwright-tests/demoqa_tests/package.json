@@ -18,5 +18,8 @@
         "codeceptjs": "^3.4.1",
         "dotenv": "^16.0.3",
         "playwright": "^1.32.1"
+    },
+    "dependencies": {
+        "@testomatio/reporter": "^0.7.6"
     }
 }
