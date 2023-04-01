@@ -3,10 +3,20 @@ const { I } = inject();
 module.exports = {
   fields: {
     //textBox
-    fullName: {id: 'userName'}, //using id
-    email: 'name@example.com', //using placeholder or text inside
-    currentAddress: {xpath: '//textarea[@id="currentAddress"]'}, //using xpath
-    permanentAddress: {xpath: '//label[contains(text(),"Permanent Address")]/following::div//textarea'}, //xpath using label and index
+    tbFullName: {id: 'userName'}, //using id
+    tbEmail: 'name@example.com', //using placeholder or text inside
+    tbCurrentAddress: {xpath: '//textarea[@id="currentAddress"]'}, //using xpath
+    tbPermanentAddress: {xpath: '//label[contains(text(),"Permanent Address")]/following::div//textarea'}, //xpath using label and index
+  
+    //webTables
+    wtFName: 'First Name', //using text inside
+    wtLName: 'Last Name',
+    wtEmail: 'name@example.com',
+    wtAge: 'Age',
+    wtSalary: 'Salary',
+    wtDepartment: 'Department',
+    wtSearchBox: {id: 'searchBox'},
+
   },
   //menu list
   textBox: {xpath: '//span[contains(text(),"Text Box")]'},
@@ -42,7 +52,11 @@ module.exports = {
   rdbtnOutput: {xpath: '//span[@class="text-success"]'},
 
   webTables: {xpath: '//span[contains(text(),"Web Tables")]'},
-  buttons: {xpath: '//span[contains(text(),"Buttons")]'},
+    wtAddButon: {id: 'addNewRecordButton'},
+    wtSubmitBtn: {id: 'submit'},
+    wtDelete: {xpath: '//span[@title="Delete"]'},
+  
+    buttons: {xpath: '//span[contains(text(),"Buttons")]'},
   links: {xpath: '(//span[contains(text(),"Links")])[1]'},
   brokenLinksImages: {xpath: '//span[contains(text(),"Broken Links - Images")]'},
   uploadDownload: {xpath: '//span[contains(text(),"Upload and Download")]'},
@@ -52,19 +66,21 @@ module.exports = {
 
 
   async doTextBoxes(fullName, email, currentAddress, permanentAddress) {
+    await I.say('Starting activity for Text Boxes', 'cyan');
     await I.click(this.textBox);
     await I.waitForText('Text Box', 60, this.pageHeader);
     await I.waitForElement(this.submitBtn, 60);
-    await I.fillField(this.fields.fullName, fullName);
-    await I.fillField(this.fields.email, email);
-    await I.fillField(this.fields.currentAddress, currentAddress);
-    await I.fillField(this.fields.permanentAddress, permanentAddress);
+    await I.fillField(this.fields.tbFullName, fullName);
+    await I.fillField(this.fields.tbEmail, email);
+    await I.fillField(this.fields.tbCurrentAddress, currentAddress);
+    await I.fillField(this.fields.tbPermanentAddress, permanentAddress);
     await I.click(this.submitBtn);
     await I.see(fullName, this.outputDiv), I.see(email, this.outputDiv), I.see(currentAddress, this.outputDiv), I.see(permanentAddress, this.outputDiv);
     await I.say('TextBox fillout success', 'green');
   },
 
   async doCheckboxes() {
+    await I.say('Starting activity for Check Boxes', 'cyan');
     await I.click(this.checkBox);
     await I.waitForText('Check Box', 60, this.pageHeader);
     await I.forceClick(this.expandAll);
@@ -78,6 +94,7 @@ module.exports = {
   },
 
   async doRadioButtons() {
+    await I.say('Starting activity for Radio Buttons', 'cyan');
     await I.click(this.radioButton);
     await I.waitForText('Radio Button', 60, this.pageHeader);
     await I.checkOption(this.yesRdbtn);
@@ -86,5 +103,23 @@ module.exports = {
     await I.checkOption(this.impressiveRdbtn);
     const result2 = await I.grabTextFrom(this.rdbtnOutput);
     await I.say('You have selected ' + result2, 'green');
+    await I.say('Successfully interacted with radio buttons', 'green');
+  },
+
+  async doWebTables(wtFName, wtLName, wtEmail, wtAge, wtSalary, wtDepartment) {
+    await I.say('Starting activity for Web Tables', 'cyan');
+    await I.click(this.webTables);
+    await I.waitForText('Web Tables', 60, this.pageHeader);
+    await I.click(this.wtAddButon);
+    await I.fillField(this.fields.wtFName, wtFName);
+    await I.fillField(this.fields.wtLName, wtLName);
+    await I.fillField(this.fields.wtEmail, wtEmail);
+    await I.fillField(this.fields.wtAge, wtAge);
+    await I.fillField(this.fields.wtSalary, wtSalary);
+    await I.fillField(this.fields.wtDepartment, wtDepartment);
+    await I.click(this.wtSubmitBtn);
+    await I.click(this.fields.wtSearchBox), I.type(wtFName, 100);
+    await I.click(this.wtDelete);
+    await I.say('Activity completed for Web Tables', 'green');
   },
 }
