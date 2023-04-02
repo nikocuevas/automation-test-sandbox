@@ -33,3 +33,9 @@ Feature: Business rules
     Given I navigate to DEMO QA website
     When I click on Elements tab
     Then I do activity for buttons
+
+  @T2849ea83
+  Scenario: Links Activity
+    Given I navigate to DEMO QA website
+    When I click on Elements tab
+    Then I do activity for links

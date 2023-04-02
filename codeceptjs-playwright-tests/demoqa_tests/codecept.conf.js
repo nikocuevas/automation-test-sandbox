@@ -45,7 +45,7 @@ exports.config = {
     testomatio: {
       enabled: true,
       require: '@testomatio/reporter/lib/adapter/codecept',
-      apiKey: 'p9vecc649qgz',
+      apiKey: process.env.TESTOMATIO,
     },
     autoDelay:{
       enabled: true,

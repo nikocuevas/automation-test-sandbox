@@ -43,3 +43,7 @@ Then('I do activity for web tables', async() => {
 Then('I do activity for buttons', async() => {
   await ElementsPage.doButtons();
 });
+
+Then('I do activity for links', async() => {
+  await ElementsPage.doLinks();
+});

@@ -1,4 +1,6 @@
 const { I } = inject();
+const assert = require('assert');
+
 
 module.exports = {
   fields: {
@@ -65,6 +67,17 @@ module.exports = {
       clickMessage: {id: 'dynamicClickMessage'},
 
   links: {xpath: '(//span[contains(text(),"Links")])[1]'},
+    simpleLink: {id: 'simpleLink'},
+    dynamicLink: {id: 'dynamicLink'},
+    createdAPI: {id: 'created'},
+    noContentAPI: {id: 'no-content'},
+    movedAPI: {id: 'moved'},
+    badRequestAPI: {id: 'bad-request'},
+    unauthorizedAPI: {id: 'unauthorized'},
+    forbiddenAPI: {id: 'forbidden'},
+    notfoundAPI: {id: 'invalid-url'},
+    linkResponse: {id: 'linkResponse'},
+
   brokenLinksImages: {xpath: '//span[contains(text(),"Broken Links - Images")]'},
   uploadDownload: {xpath: '//span[contains(text(),"Upload and Download")]'},
   dynamicProperties: {xpath: '//span[contains(text(),"Dynamic Properties")]'},
@@ -136,16 +149,58 @@ module.exports = {
     await I.waitForText('Buttons', 60, this.pageHeader);
     await I.doubleClick(this.doubleClickBtn);
     await I.waitForText('You have done a double click', 60, this.doubleClickMessage);
-    const messageDoubleClick = I.grabTextFrom(this.doubleClickMessage);
+    let messageDoubleClick = await I.grabTextFrom(this.doubleClickMessage);
     await I.say(`Message Displayed: ${messageDoubleClick}`);
     await I.rightClick(this.rightClickBtn);
     await I.waitForText('You have done a right click', 60, this.rightClickMessage);
-    const messageRightClick = I.grabTextFrom(this.rightClickMessage);
+    let messageRightClick = await I.grabTextFrom(this.rightClickMessage);
     await I.say(`Message Displayed: ${messageRightClick}`);
     await I.click(this.clickBtn);
     await I.waitForText('You have done a dynamic click', 60, this.clickMessage);
-    const messageClick = I.grabTextFrom(this.clickMessage);
+    let messageClick = await I.grabTextFrom(this.clickMessage);
     await I.say(`Message Displayed: ${messageClick}`);
     await I.say('Activity completed for Buttons', 'green');
   },
+
+  async doLinks() {
+    await I.say('Starting activity for Links', 'cyan');
+    await I.click(this.links);
+    await I.waitForText('Links', 60, this.pageHeader);
+    await I.click(this.simpleLink);
+    await I.switchToNextTab();
+    const navigatedURL = await I.grabCurrentUrl();
+    const expectedURl = 'https://demoqa.com/'
+    assert.strictEqual(expectedURl, navigatedURL);
+    await I.say(`Navigated link equals to [${navigatedURL}]`);
+    await I.closeCurrentTab();
+    await I.click(this.dynamicLink);
+    await I.switchToNextTab()
+    const navigatedURL2 = await I.grabCurrentUrl();
+    assert.strictEqual(expectedURl, navigatedURL2);
+    await I.say(`Navigated dynamic link equals to [${navigatedURL2}]`);
+    await I.closeCurrentTab();
+    await I.click(this.createdAPI);
+    let createdResponse = await I.grabTextFromAll(this.linkResponse);
+    await I.say(createdResponse, 'green');
+    await I.click(this.noContentAPI);
+    let noContentResponse = await I.grabTextFromAll(this.linkResponse);
+    await I.say(noContentResponse, 'green');
+    await I.click(this.movedAPI);
+    let movedResponse = await I.grabTextFromAll(this.linkResponse);
+    await I.say(movedResponse, 'yellow');
+    await I.click(this.badRequestAPI);
+    let badRequestResponse = await I.grabTextFromAll(this.linkResponse);
+    await I.say(badRequestResponse, 'red');
+    await I.click(this.unauthorizedAPI);
+    let unathorizedResponse = await I.grabTextFromAll(this.linkResponse);
+    await I.say(unathorizedResponse, 'red');
+    await I.click(this.forbiddenAPI);
+    let forbiddenResponse = await I.grabTextFromAll(this.linkResponse);
+    await I.say(forbiddenResponse, 'red');
+    await I.click(this.notfoundAPI);
+    let notFoundResponse = await I.grabTextFromAll(this.linkResponse);
+    await I.say(notFoundResponse, 'red');
+    await I.say('Activity completed for Links', 'green');
+  },
+
 }
