@@ -27,3 +27,9 @@ Feature: Business rules
     Given I navigate to DEMO QA website
     When I click on Elements tab
     Then I do activity for web tables
+
+  @T5371d50e
+  Scenario: Buttons Activity
+    Given I navigate to DEMO QA website
+    When I click on Elements tab
+    Then I do activity for buttons

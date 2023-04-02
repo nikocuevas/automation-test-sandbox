@@ -56,7 +56,14 @@ module.exports = {
     wtSubmitBtn: {id: 'submit'},
     wtDelete: {xpath: '//span[@title="Delete"]'},
   
-    buttons: {xpath: '//span[contains(text(),"Buttons")]'},
+  buttons: {xpath: '//span[contains(text(),"Buttons")]'},
+    doubleClickBtn: {id: 'doubleClickBtn'}, //using id
+      doubleClickMessage: {id: 'doubleClickMessage'},
+    rightClickBtn: {xpath: '//button[contains(text(), "Right Click Me")]'}, //using label
+      rightClickMessage: {id: 'rightClickMessage'},
+    clickBtn: {xpath: '(//button[@type="button"])[4]'}, //by index
+      clickMessage: {id: 'dynamicClickMessage'},
+
   links: {xpath: '(//span[contains(text(),"Links")])[1]'},
   brokenLinksImages: {xpath: '//span[contains(text(),"Broken Links - Images")]'},
   uploadDownload: {xpath: '//span[contains(text(),"Upload and Download")]'},
@@ -121,5 +128,24 @@ module.exports = {
     await I.click(this.fields.wtSearchBox), I.type(wtFName, 100);
     await I.click(this.wtDelete);
     await I.say('Activity completed for Web Tables', 'green');
+  },
+
+  async doButtons() {
+    await I.say('Starting activity for Buttons', 'cyan');
+    await I.click(this.buttons);
+    await I.waitForText('Buttons', 60, this.pageHeader);
+    await I.doubleClick(this.doubleClickBtn);
+    await I.waitForText('You have done a double click', 60, this.doubleClickMessage);
+    const messageDoubleClick = I.grabTextFrom(this.doubleClickMessage);
+    await I.say(`Message Displayed: ${messageDoubleClick}`);
+    await I.rightClick(this.rightClickBtn);
+    await I.waitForText('You have done a right click', 60, this.rightClickMessage);
+    const messageRightClick = I.grabTextFrom(this.rightClickMessage);
+    await I.say(`Message Displayed: ${messageRightClick}`);
+    await I.click(this.clickBtn);
+    await I.waitForText('You have done a dynamic click', 60, this.clickMessage);
+    const messageClick = I.grabTextFrom(this.clickMessage);
+    await I.say(`Message Displayed: ${messageClick}`);
+    await I.say('Activity completed for Buttons', 'green');
   },
 }

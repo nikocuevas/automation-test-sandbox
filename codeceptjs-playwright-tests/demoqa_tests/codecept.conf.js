@@ -38,16 +38,14 @@ exports.config = {
   },
   plugins: {
     stepByStepReport: {
-      enabled: true,
-      fullPageScreenshots: true,
+      enabled: false,
+      fullPageScreenshots: false,
       deleteSuccessful: false,
     },
     testomatio: {
       enabled: true,
       require: '@testomatio/reporter/lib/adapter/codecept',
       apiKey: 'p9vecc649qgz',
-      output: 'stdout',
-      screenshotOnFail: true,
     },
     autoDelay:{
       enabled: true,

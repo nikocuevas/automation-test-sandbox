@@ -38,5 +38,8 @@ Then('I do activity for web tables', async() => {
   var wtSalary = faker.random.numeric(6);
   var wtDepartment = faker.name.jobArea();
   await ElementsPage.doWebTables(wtFName, wtLName, wtEmail, wtAge, wtSalary, wtDepartment);
-  await I.wait(5);
+});
+
+Then('I do activity for buttons', async() => {
+  await ElementsPage.doButtons();
 });
