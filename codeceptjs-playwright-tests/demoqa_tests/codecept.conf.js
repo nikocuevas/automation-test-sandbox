@@ -14,9 +14,9 @@ exports.config = {
       keepTraceForPassedTests: false,
       show: true,
       browser: 'chromium',
-      chromium: {
-         executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe',
-      },
+      //chromium: {
+         //executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe',
+      //},
       //emulate: devices['iPhone 13 mini'],
     },
     FileSystem: {},
